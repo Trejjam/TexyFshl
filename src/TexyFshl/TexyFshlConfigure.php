@@ -24,26 +24,44 @@ class TexyFshlConfigure implements Texy\ITexyConfigurator
 	 * @var array
 	 */
 	private $highlights;
+	/**
+	 * @var array
+	 */
+	private $texy;
 
-	function __construct(FSHL\Highlighter $highlighter, array $highlights) {
+	function __construct(FSHL\Highlighter $highlighter, array $highlights, array $texy) {
 		$this->highlighter = $highlighter;
 		$this->highlights = $highlights;
+		$this->texy = $texy;
 	}
 
 	public function configure(Texy $texy) {
-		$texy->allowedTags = Texy::ALL;
-		$texy->linkModule->root = '';
-		$texy->tabWidth = 4;
-		$texy->phraseModule->tags['phrase/strong'] = 'b';
-		$texy->phraseModule->tags['phrase/em'] = 'i';
-		$texy->phraseModule->tags['phrase/em-alt'] = 'i';
-
-		$texy->headingModule->top = 2;
-		$texy->headingModule->generateID = TRUE;
-
-		$texy->dtd['pre'][1]['ol'] = 1;
+		$this->setupTexy($texy, $this->texy);
 
 		$texy->addHandler('block', [$this, 'blockHandler']);
+	}
+
+	protected function setupTexy(&$target, $source) {
+		if (is_array($source)) {
+			foreach ($source as $k => $v) {
+				if (isset($target->$k)) {
+					if (is_array($target->$k)) {
+						if (is_array($v)) {
+							$target->$k = array_merge($target->$k, $v);
+						}
+						else {
+							$target->$k = $v;
+						}
+					}
+					else {
+						$this->setupTexy($target->$k, $v);
+					}
+				}
+			}
+		}
+		else {
+			$target = $source;
+		}
 	}
 
 	public function blockHandler(\TexyHandlerInvocation $invocation, $blockType, $content, $lang, $modifier) {

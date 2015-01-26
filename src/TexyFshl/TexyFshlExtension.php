@@ -19,6 +19,7 @@ class TexyFshlExtension extends Nette\DI\CompilerExtension
 		'parentExtension' => ['texy'],
 		'fshlHtmlOutput'  => 'Trejjam\TexyFshl\FshlHtmlOutput',
 		'highlights'      => [],
+		'texy'            => [],
 	];
 
 	/**
@@ -42,9 +43,44 @@ class TexyFshlExtension extends Nette\DI\CompilerExtension
 		'block/htmlcb'     => 'FSHL\Lexer\Html',
 	];
 
+	/**
+	 * @var array
+	 */
+	protected $texy = [
+		'allowedTags'      => \Texy::ALL,
+		'linkModule'       => [
+			'root' => ''
+		],
+		'tabWidth'         => 4,
+		'phraseModule'     => [
+			'tags' => [
+				'phrase/strong' => 'b',
+				'phrase/em'     => 'i',
+				'phrase/em-alt' => 'i',
+			]
+		],
+		'headingModule'    => [
+			'top'        => 1,
+			'generateID' => TRUE,
+		],
+		'htmlOutputModule' => [
+			'indent' => FALSE,
+		],
+		'dtd'              => [
+			'pre' => [
+				1 => [
+					'ol' => 1,
+				]
+			],
+		],
+	];
+
 	public function loadConfiguration() {
 		$builder = $this->getContainerBuilder();
-		$config = $this->getConfig(array_merge($this->defaults, ['highlights' => $this->highlights]));
+		$config = $this->getConfig(array_merge($this->defaults, [
+			'highlights' => $this->highlights,
+			'texy'       => $this->texy
+		]));
 
 		$this->validate($config, $this->defaults, $this->name);
 		$this->validate($config['highlights'], $this->highlights, $this->name . '.highlights');
@@ -59,6 +95,7 @@ class TexyFshlExtension extends Nette\DI\CompilerExtension
 							 ->setClass('Trejjam\TexyFshl\TexyFshlConfigure', [
 								 $this->prefix('@highlighter'),
 								 $config['highlights'],
+								 $config['texy'],
 							 ]);
 
 		foreach ($config['parentExtension'] as $v) {
