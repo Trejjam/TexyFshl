@@ -23,6 +23,9 @@
 	"require-dev": {
 		"nette/tester": "@dev"
 	},
+	"suggest": {
+		"lookyman/nette-texy": ""
+	},
 	"autoload": {
 		"classmap": ["src/TexyFshl"]
 	}
