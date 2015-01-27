@@ -28,17 +28,49 @@ class TexyFshlConfigure implements Texy\ITexyConfigurator
 	 * @var array
 	 */
 	private $texy;
+	/**
+	 * @var array
+	 */
+	private $references;
 
-	function __construct(FSHL\Highlighter $highlighter, array $highlights, array $texy) {
+	function __construct(FSHL\Highlighter $highlighter, array $highlights, array $texy, array $references) {
 		$this->highlighter = $highlighter;
 		$this->highlights = $highlights;
 		$this->texy = $texy;
+		$this->references = $references;
 	}
 
 	public function configure(Texy $texy) {
 		$this->setupTexy($texy, $this->texy);
 
+		$texy->setOutputMode(Texy::HTML5);
+
+		foreach ($this->references as $k => $v) {
+			$texy->linkModule->addReference($k, new \TexyLink($v));
+		}
+
+		$texy->registerLinePattern(
+			array($this, 'patternPhraseTrejjam'),
+			'#(?<!\')\'(?!\s)((?:[^\r \']++|[ ])+)' . \TexyPatterns::MODIFIER . '?(?<!\s)\'\|(?!\s)((?:[^\r :]++|[ ])+)??(?::(' . \TexyPatterns::LINK_URL . '))??()#Uu',
+			'phrase/span-trejjam'
+		);
+
 		$texy->addHandler('block', [$this, 'blockHandler']);
+	}
+
+	public function patternPhraseTrejjam(\TexyLineParser $parser, $matches, $phrase) {
+		$editMatches = $matches;
+
+		$editMatches[1] = $editMatches[3];
+		$editMatches[3] = '[' . $editMatches[4] . ']';
+		$editMatches[4] = $editMatches[5];
+		unset($editMatches[4]);
+
+		$el = $parser->getTexy()->phraseModule->patternPhrase($parser, $editMatches, 'phrase/span');
+
+		$el->setText($matches[1]);
+
+		return $el;
 	}
 
 	protected function setupTexy(&$target, $source) {

@@ -20,6 +20,9 @@ class TexyFshlExtension extends Nette\DI\CompilerExtension
 		'fshlHtmlOutput'  => 'Trejjam\TexyFshl\FshlHtmlOutput',
 		'highlights'      => [],
 		'texy'            => [],
+		'references'      => [
+			'page' => 'home/page-%s',
+		]
 	];
 
 	/**
@@ -96,6 +99,7 @@ class TexyFshlExtension extends Nette\DI\CompilerExtension
 								 $this->prefix('@highlighter'),
 								 $config['highlights'],
 								 $config['texy'],
+								 $config['references'],
 							 ]);
 
 		foreach ($config['parentExtension'] as $v) {
