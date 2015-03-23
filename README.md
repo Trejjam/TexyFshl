@@ -29,3 +29,36 @@ extensions:
 
 texyFshl:
 ```
+
+Usage
+-----
+
+Presenter
+```php
+function renderDefault() {
+	$template = $this->template;
+	$template->texy = '';
+	
+	$template->texy .= 'Colored block of code';
+	//all possible blocks: code, cpp, python, php, neon, config, sh, texy, java, javascript, js, css, sql, html, htmlcb
+	$template->texy .= '/--php';
+    $template->texy .= 'function foo() {';
+    $template->texy .= '	$hello=\'\';';
+    $template->texy .= '	echo $helo;';
+    $template->texy .= '}';
+    $template->texy .= '\--';
+    
+    $template->texy .= 'Base block of code';
+    $template->texy .= '/--code';
+    $template->texy .= 'function foo() {';
+    $template->texy .= '	$hello=\'\';';
+    $template->texy .= '	echo $helo;';
+    $template->texy .= '}';
+    $template->texy .= '\--';
+}
+```
+
+.latte
+```latte
+	{$texy|texy}
+```
