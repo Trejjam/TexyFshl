@@ -41,9 +41,9 @@ class TexyFshlConfigure implements Texy\ITexyConfigurator
 	}
 
 	public function configure(Texy $texy) {
-		$this->setupTexy($texy, $this->texy);
-
 		$texy->setOutputMode(Texy::HTML5);
+
+		$this->setupTexy($texy, $this->texy);
 
 		foreach ($this->references as $k => $v) {
 			$texy->linkModule->addReference($k, new \TexyLink($v));
