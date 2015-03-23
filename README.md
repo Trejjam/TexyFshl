@@ -33,7 +33,7 @@ texyFshl:
 Usage
 -----
 
-Presenter
+Presenter:
 ```php
 function renderDefault() {
 	$template = $this->template;
@@ -58,7 +58,58 @@ function renderDefault() {
 }
 ```
 
-.latte
+default.latte:
 ```latte
-	{$texy|texy}
+    <div class="texy">
+	    {$texy|texy}
+	</div>
+```
+
+LESS:
+```less
+.texy {
+    @import "bootstrap/reset.less";
+    @import "bootstrap/code.less";
+
+    .prettyprint {
+        padding: 8px;
+        background-color: #f7f7f9;
+        border: 1px solid #e1e1e8;
+        //line-height: 0 !important;
+    }
+    .prettyprint.linenums {
+        -webkit-box-shadow: inset 45px 0 0 #fbfbfc, inset 46px 0 0 #ececf0;
+        -moz-box-shadow: inset 45px 0 0 #fbfbfc, inset 46px 0 0 #ececf0;
+        box-shadow: inset 45px 0 0 #fbfbfc, inset 46px 0 0 #ececf0;
+    }
+    ol.linenums {
+        margin: 0 0 0 43px; /* IE indents via margin-left */
+        padding-left: 0px;
+    }
+    ol.linenums li {
+        padding-left: 6px;
+        color: #bebec5;
+        line-height: 20px;
+        text-shadow: 0 1px 0 #fff;
+    }
+    ol.linenums li > span {
+        color: black;
+    }
+
+    a {
+        .font(Arial, 16px, @base);
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    p {
+        .font(Arial, 16px, #000);
+    }
+    li {
+        .font(Arial, 16px, #000);
+    }
+
+    @import (less) "/vendor/kukulich/fshl/style.css";
+}
 ```
