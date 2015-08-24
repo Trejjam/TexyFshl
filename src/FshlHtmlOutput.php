@@ -9,8 +9,8 @@
 namespace Trejjam\TexyFshl;
 
 
-use Nette;
-use FSHL;
+use Nette,
+	FSHL;
 
 class FshlHtmlOutput implements FSHL\Output
 {

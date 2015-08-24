@@ -27,6 +27,13 @@
 		"lookyman/nette-texy": ""
 	},
 	"autoload": {
-		"classmap": ["src/TexyFshl"]
+		"psr-4": {
+			"Trejjam\\TexyFshl\\": "src/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "0.6-dev"
+		}
 	}
 }

@@ -16,7 +16,7 @@ Installation
 The best way to install Trejjam/Texy-fshl is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require trejjam/texy-fshl
+$ composer require trejjam/texy-fshl:0.5
 ```
 
 Configuration
@@ -25,7 +25,7 @@ Configuration
 .neon
 ```yml
 extensions:
-	texyFshl: Trejjam\DI\TexyFshlExtension
+	texyFshl: Trejjam\TexyFshl\DI\TexyFshlExtension
 
 texyFshl:
 ```

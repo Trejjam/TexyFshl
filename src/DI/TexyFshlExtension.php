@@ -6,7 +6,7 @@
  * Time: 17:38
  */
 
-namespace Trejjam\DI;
+namespace Trejjam\TexyFshl\DI;
 
 use Nette;
 
